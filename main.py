@@ -19,14 +19,14 @@ def text_to_speech(text: str) -> str:
     return audio_name
 
 
-def speech_to_text(job_name: str, s3_object_url: str) -> None:
+def speech_to_text(job_name: str, s3_object_url: str, bucket_name: str) -> None:
     transcribe = boto3.client('transcribe')
     transcribe.start_transcription_job(
         TranscriptionJobName=job_name,
         Media={'MediaFileUri': s3_object_url},
         MediaFormat='mp3',
         LanguageCode='en-US',
-        OutputBucketName='ml-apper-demo'
+        OutputBucketName=bucket_name
     )
 
     max_tries = 60
@@ -52,4 +52,4 @@ if __name__ == "__main__":
     # filename = text_to_speech('This is a test of the polly service, this application is written on python')
     # upload_resp = s3.upload_file(file_path=filename, bucket=bucket_name)
 
-    # speech_to_text(job_name='', s3_object_url="")
+    # speech_to_text(job_name='', s3_object_url="", bucket_name=bucket_name)
